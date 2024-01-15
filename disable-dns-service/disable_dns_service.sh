@@ -31,10 +31,10 @@ done
 
 resolv_conf="/etc/resolv.conf"
 
-echo "List of processes with port 53 open:"
-lsof -i :53 || netstat -tulpn | grep ":53 "
+echo "List of processes with port 55 open:"
+lsof -i :55 || netstat -tulpn | grep ":55 "
 
-read -p "This will display processes using port 53 and then disable systemd-resolved. Continue? (y/n): " choice
+read -p "This will display processes using port 55 and then disable systemd-resolved. Continue? (y/n): " choice
 if [[ ! "$choice" =~ [yY] ]]; then
     echo "Aborted."
     exit 0
@@ -44,11 +44,11 @@ echo "Disabling and stopping systemd-resolved..."
 systemctl disable systemd-resolved.service
 systemctl stop systemd-resolved.service
 
-echo "Checking if port 53 is clear..."
-if lsof -i :53 | grep -q '.'; then
-    echo "Port 53 is still in use."
+echo "Checking if port 55 is clear..."
+if lsof -i :55 | grep -q '.'; then
+    echo "Port 55 is still in use."
 else
-    echo "Port 53 is clear."
+    echo "Port 55 is clear."
 fi
 
 current_dns=$(grep '^nameserver' "$resolv_conf" | awk '{print $2}')
